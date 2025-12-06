@@ -17,62 +17,63 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color(0.2520276, 0.25202766, 0.25202763, 1)
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect"]
+[node name="PanelContainer" type="PanelContainer" parent="ColorRect"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -60.5
-offset_top = -60.0
-offset_right = 60.5
-offset_bottom = 60.0
+offset_left = -182.0
+offset_top = -42.5
+offset_right = 182.0
+offset_bottom = 42.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/PanelContainer/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(180, 0)
 layout_mode = 2
-alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/HBoxContainer/VBoxContainer"]
+[node name="l_fries" type="Label" parent="ColorRect/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
-
-[node name="Cookies" type="Label" parent="ColorRect/HBoxContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-text = "0"
-horizontal_alignment = 1
+text = "0 Fries"
 vertical_alignment = 1
 
-[node name="l_cookie" type="Label" parent="ColorRect/HBoxContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-text = "Cookies"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="CPS" type="Label" parent="ColorRect/HBoxContainer/VBoxContainer"]
+[node name="per_second" type="Label" parent="ColorRect/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "0/s"
 
-[node name="Bake" type="Button" parent="ColorRect/HBoxContainer/VBoxContainer"]
+[node name="b_fry" type="Button" parent="ColorRect/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
-text = "Bake a Cookie!"
+text = "Fry"
 
-[node name="EmployeeContainer" type="VBoxContainer" parent="ColorRect/HBoxContainer"]
+[node name="employee_container" type="VBoxContainer" parent="ColorRect/PanelContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(180, 0)
 layout_mode = 2
-alignment = 1
 
-[node name="l_employees" type="Label" parent="ColorRect/HBoxContainer/EmployeeContainer"]
+[node name="l_employees" type="Label" parent="ColorRect/PanelContainer/MarginContainer/HBoxContainer/employee_container"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Employees: 0"
 
-[node name="Hire" type="Button" parent="ColorRect/HBoxContainer/EmployeeContainer"]
+[node name="b_employee" type="Button" parent="ColorRect/PanelContainer/MarginContainer/HBoxContainer/employee_container"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Hire (10)"
-
-[node name="d_emp" type="Label" parent="ColorRect/HBoxContainer/EmployeeContainer"]
-layout_mode = 2
 
 [node name="Tick" type="Timer" parent="."]
