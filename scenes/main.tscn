@@ -70,11 +70,13 @@ text = "Harvest"
 custom_minimum_size = Vector2(180, 0)
 layout_mode = 2
 
-[node name="l_employees" type="Label" parent="ColorRect/HBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/employee_container"]
+[node name="l_harvest_employees" type="Label" parent="ColorRect/HBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/employee_container"]
+unique_name_in_owner = true
 layout_mode = 2
-text = "Employees: 0"
+text = "Harvesters: 0"
 
-[node name="b_employee" type="Button" parent="ColorRect/HBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/employee_container"]
+[node name="b_harvesters" type="Button" parent="ColorRect/HBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/employee_container"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Hire (10)"
 
@@ -119,7 +121,7 @@ layout_mode = 2
 [node name="l_employees" type="Label" parent="ColorRect/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer/employee_container"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Employees: 0"
+text = "Friers: 0"
 
 [node name="b_employee" type="Button" parent="ColorRect/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer/employee_container"]
 unique_name_in_owner = true
