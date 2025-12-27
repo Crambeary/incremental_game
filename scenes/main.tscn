@@ -17,61 +17,111 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color(0.2520276, 0.25202766, 0.25202763, 1)
 
-[node name="PanelContainer" type="PanelContainer" parent="ColorRect"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -182.0
-offset_top = -42.5
-offset_right = 182.0
-offset_bottom = 42.5
+offset_left = -406.0
+offset_top = -62.5
+offset_right = 406.0
+offset_bottom = 62.5
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 38
+alignment = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="ColorRect/PanelContainer"]
+[node name="PanelContainer2" type="PanelContainer" parent="ColorRect/HBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/HBoxContainer/PanelContainer2"]
 layout_mode = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/PanelContainer/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/HBoxContainer/PanelContainer2/MarginContainer"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/PanelContainer/MarginContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/HBoxContainer/PanelContainer2/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(180, 0)
 layout_mode = 2
 
-[node name="l_fries" type="Label" parent="ColorRect/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="l_potatoes" type="Label" parent="ColorRect/HBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0 Potatoes"
+vertical_alignment = 1
+
+[node name="potatos_per_second" type="Label" parent="ColorRect/HBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0/s"
+
+[node name="b_harvest" type="Button" parent="ColorRect/HBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Harvest"
+
+[node name="employee_container" type="VBoxContainer" parent="ColorRect/HBoxContainer/PanelContainer2/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+
+[node name="l_employees" type="Label" parent="ColorRect/HBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/employee_container"]
+layout_mode = 2
+text = "Employees: 0"
+
+[node name="b_employee" type="Button" parent="ColorRect/HBoxContainer/PanelContainer2/MarginContainer/HBoxContainer/employee_container"]
+layout_mode = 2
+text = "Hire (10)"
+
+[node name="PanelContainer" type="PanelContainer" parent="ColorRect/HBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect/HBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/HBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+
+[node name="l_fries" type="Label" parent="ColorRect/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "0 Fries"
 vertical_alignment = 1
 
-[node name="per_second" type="Label" parent="ColorRect/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="per_second" type="Label" parent="ColorRect/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "0/s"
 
-[node name="b_fry" type="Button" parent="ColorRect/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="b_fry" type="Button" parent="ColorRect/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Fry"
 
-[node name="employee_container" type="VBoxContainer" parent="ColorRect/PanelContainer/MarginContainer/HBoxContainer"]
+[node name="employee_container" type="VBoxContainer" parent="ColorRect/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(180, 0)
 layout_mode = 2
 
-[node name="l_employees" type="Label" parent="ColorRect/PanelContainer/MarginContainer/HBoxContainer/employee_container"]
+[node name="l_employees" type="Label" parent="ColorRect/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer/employee_container"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Employees: 0"
 
-[node name="b_employee" type="Button" parent="ColorRect/PanelContainer/MarginContainer/HBoxContainer/employee_container"]
+[node name="b_employee" type="Button" parent="ColorRect/HBoxContainer/PanelContainer/MarginContainer/HBoxContainer/employee_container"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Hire (10)"
