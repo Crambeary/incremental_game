@@ -1,6 +1,7 @@
 extends Node
 
 var TICK_RATE # init value in _ready
+var CURRENCY_CHAR = "$"
 
 var total_fries: float = 0
 var current_fries: float = 0

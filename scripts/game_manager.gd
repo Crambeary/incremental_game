@@ -37,6 +37,8 @@ var truckers_shown: float
 var current_truck_interval: int = 0
 var delivery_in_progress: bool = false
 var delivery_time: int = 0
+var potatoes_in_delivery = 0
+
 
 func _ready() -> void:
 	b_fry.connect("button_down", fry_time)
@@ -69,15 +71,13 @@ func _process(delta: float) -> void:
 	if State.unlock_hire:
 		employee_container.visible = true
 	per_second.text = str(roundf(State.current_employees * 2), "/s")
-	b_employee.text = str("Hire(", State.hire_cost, ")")
-	l_employees.text = str("Friers: ", State.current_employees)
+	
 
 	potatoes_shown = lerp(potatoes_shown, State.current_potatoes, 0.06)
 	l_potatoes.text = str(int(roundf(potatoes_shown)), \
 		(" Potato" if potatoes_shown == 1 else " Potatoes"))
 	potatos_per_second.text = str(roundf(State.current_harvesters * 2), "/s")
-	b_harvest.text = str("Order(", \
-		State.potato_delivery_cost * State.potato_crates, ")")
+
 	b_harvest.disabled = true if delivery_in_progress else false
 	l_harvest_employees.text = str("Harvesters: ", State.current_harvesters)
 	p_delivery.value = delivery_time
@@ -86,15 +86,16 @@ func _process(delta: float) -> void:
 		" Crate" if State.potato_crates == 1 else " Crates")
 
 	dollars_shown = lerp(dollars_shown, State.current_dollars, 0.06)
-	l_dollars.text = str("$", int(roundf(dollars_shown)))
+	l_dollars.text = str(State.CURRENCY_CHAR, int(roundf(dollars_shown)))
 	
 	truckers_shown = lerp(truckers_shown, State.current_trucks, 0.06)
 	l_truckers.text = str(int(roundf(truckers_shown)), " Trucks")
 	l_fries_per_haul.text = str(int(State.fries_per_truck * State.current_trucks), " Fries per Haul")
-	b_hire_trucker.text = str("Hire(", State.truck_cost, ")")
-	haul_per_second.text = str("$", int(State.fries_per_truck * State.current_trucks), "/s")
+	
+	haul_per_second.text = str(State.CURRENCY_CHAR, int(State.fries_per_truck * State.current_trucks), "/s")
 	p_truck_haul.value = current_truck_interval
 	p_truck_haul.max_value = State.truck_interval
+	update_ui()
 
 func fry_time() -> void:
 	#State.current_fries += 10
@@ -119,8 +120,8 @@ func employee_tick() -> void:
 	if delivery_in_progress and delivery_time < State.potato_delivery_time:
 		delivery_time += 1
 	elif delivery_time >= State.potato_delivery_time:
-		State.current_potatoes += State.potato_delivery_amount \
-			* State.potato_crates
+		State.current_potatoes += potatoes_in_delivery
+		potatoes_in_delivery = 0
 		delivery_time = 0
 		delivery_in_progress = false
 		
@@ -145,9 +146,11 @@ func tick() -> void:
 	employee_tick()
 
 func harvest_time() -> void:
-	if State.current_dollars >= State.potato_delivery_cost \
+	if State.current_dollars >= (State.potato_delivery_cost * State.potato_crates) \
 		and not delivery_in_progress:		
 		State.current_dollars -= State.potato_delivery_cost \
+			* State.potato_crates
+		potatoes_in_delivery = State.potato_delivery_amount \
 			* State.potato_crates
 		delivery_in_progress = true
 	
@@ -155,6 +158,7 @@ func buy_crate() -> void:
 	if State.current_dollars >= State.potato_crates_cost:
 		State.potato_crates += 1
 		State.current_dollars -= State.potato_crates_cost
+		State.potato_crates_cost = roundi(State.potato_crates_cost * 1.1)
 	
 func hire_harvester() -> void:
 	pass
@@ -167,3 +171,11 @@ func hire_trucker() -> void:
 		State.current_dollars -= State.truck_cost
 		State.current_trucks += 1
 		State.truck_cost = roundi(State.truck_cost * 1.1)
+
+func update_ui() -> void:
+	b_crate.text = str("Buy Crate (", State.CURRENCY_CHAR, roundi(State.potato_crates_cost), ")")
+	b_employee.text = str("Hire(", State.CURRENCY_CHAR, State.hire_cost, ")")
+	l_employees.text = str("Friers: ", State.current_employees)
+	b_hire_trucker.text = str("Hire(", State.CURRENCY_CHAR, State.truck_cost, ")")
+	b_harvest.text = str("Order(", State.CURRENCY_CHAR, \
+		State.potato_delivery_cost * State.potato_crates, ")")
