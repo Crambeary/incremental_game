@@ -20,6 +20,8 @@ extends Node
 @onready var l_fries_per_haul: Label = %l_fries_per_haul
 @onready var b_hire_trucker: Button = %b_hire_trucker
 @onready var l_truckers: Label = %l_truckers
+@onready var p_truck_haul: ProgressBar = %p_truck_haul
+var current_truck_interval: int = 0
 
 
 @onready var tick_timer: Timer = $Tick
@@ -74,6 +76,7 @@ func _process(delta: float) -> void:
 	l_fries_per_haul.text = str(int(State.fries_per_truck * State.current_trucks), " Fries per Haul")
 	b_hire_trucker.text = str("Hire(", State.truck_cost, ")")
 	haul_per_second.text = str("$", int(State.fries_per_truck * State.current_trucks), "/s")
+	p_truck_haul.value = current_truck_interval
 
 func fry_time() -> void:
 	State.current_fries += 10
@@ -95,12 +98,16 @@ func employee_tick() -> void:
 		State.current_potatoes += (State.current_harvesters * 2)
 		
 	if State.current_trucks and State.current_fries > \
-	(State.fries_per_truck * State.current_trucks):
+	(State.fries_per_truck * State.current_trucks)\
+	and current_truck_interval >= State.truck_interval:
 		State.current_dollars += (
 			(State.current_fries 
 			* State.fries_per_truck) 
 			* State.dollars_per_fry)
 		State.current_fries -= (State.fries_per_truck * State.current_trucks)
+		current_truck_interval = 0
+	else:
+		current_truck_interval += 1
 
 func tick() -> void:
 	employee_tick()

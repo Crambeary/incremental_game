@@ -190,4 +190,9 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Hire (10)"
 
+[node name="p_truck_haul" type="ProgressBar" parent="ColorRect/VBoxContainer/HBoxContainer/PanelContainer3/MarginContainer/HBoxContainer/employee_container"]
+unique_name_in_owner = true
+layout_mode = 2
+max_value = 60.0
+
 [node name="Tick" type="Timer" parent="."]
