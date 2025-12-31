@@ -1,5 +1,6 @@
 extends Node
 
+@onready var l_total_fries: Label = %l_total_fries
 @onready var l_fries: Label = %l_fries
 @onready var per_second: Label = %per_second
 
@@ -29,11 +30,6 @@ extends Node
 
 @onready var tick_timer: Timer = $Tick
 
-# TODO: Move data into a State autoload script, much like the 
-# godot-reactive-ui example
-# TODO: Add a new state of items, maybe harvesting into a basket, 
-# or shipping via trucks
-
 var frys_shown: float
 var potatoes_shown: float
 var dollars_shown: float
@@ -46,6 +42,8 @@ func _ready() -> void:
 	b_fry.connect("button_down", fry_time)
 	b_employee.connect("button_down", hire_employee)
 	employee_container.visible = false
+	l_total_fries.text = str(State.total_fries) \
+		+ " Fries for the Fry Lord"
 	
 	b_harvest.connect("button_down", harvest_time)
 	b_harvesters.connect("button_down", hire_harvester)
@@ -59,9 +57,12 @@ func _ready() -> void:
 	State.TICK_RATE = tick_timer.wait_time
 	tick_timer.start(State.TICK_RATE)
 	tick_timer.connect("timeout", tick)
+	p_delivery.max_value = State.truck_interval
 
 func _process(delta: float) -> void:
 	frys_shown = lerp(frys_shown, State.current_fries, 0.06)
+	l_total_fries.text = str(State.total_fries) \
+		+ " Fries for the Fry Lord"
 	l_fries.text = str(int(roundf(frys_shown)), " Fries")
 	if State.current_fries >= State.hire_cost:
 		State.unlock_hire = true
@@ -75,7 +76,8 @@ func _process(delta: float) -> void:
 	l_potatoes.text = str(int(roundf(potatoes_shown)), \
 		(" Potato" if potatoes_shown == 1 else " Potatoes"))
 	potatos_per_second.text = str(roundf(State.current_harvesters * 2), "/s")
-	b_harvest.text = str("Order(", State.potato_delivery_cost, ")")
+	b_harvest.text = str("Order(", \
+		State.potato_delivery_cost * State.potato_crates, ")")
 	b_harvest.disabled = true if delivery_in_progress else false
 	l_harvest_employees.text = str("Harvesters: ", State.current_harvesters)
 	p_delivery.value = delivery_time
@@ -117,7 +119,8 @@ func employee_tick() -> void:
 	if delivery_in_progress and delivery_time < State.potato_delivery_time:
 		delivery_time += 1
 	elif delivery_time >= State.potato_delivery_time:
-		State.current_potatoes += State.potato_delivery_amount
+		State.current_potatoes += State.potato_delivery_amount \
+			* State.potato_crates
 		delivery_time = 0
 		delivery_in_progress = false
 		
@@ -132,6 +135,7 @@ func employee_tick() -> void:
 			if State.current_fries >= fries_in_haul \
 			else State.current_fries
 		State.current_fries -= fries_to_ship
+		State.total_fries += fries_to_ship
 		current_truck_interval = 0
 	else:
 		current_truck_interval += 1
@@ -142,10 +146,10 @@ func tick() -> void:
 
 func harvest_time() -> void:
 	if State.current_dollars >= State.potato_delivery_cost \
-		and not delivery_in_progress:
-		State.current_dollars -= State.potato_delivery_cost
+		and not delivery_in_progress:		
+		State.current_dollars -= State.potato_delivery_cost \
+			* State.potato_crates
 		delivery_in_progress = true
-	#State.current_potatoes += 10
 	
 func buy_crate() -> void:
 	if State.current_dollars >= State.potato_crates_cost:

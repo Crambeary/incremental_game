@@ -32,6 +32,13 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
+[node name="l_total_fries" type="Label" parent="ColorRect/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+text = "0 Fries for the Fry Lord"
+horizontal_alignment = 1
+
 [node name="l_dollars" type="Label" parent="ColorRect/VBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(120, 0)

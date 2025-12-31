@@ -2,6 +2,7 @@ extends Node
 
 var TICK_RATE # init value in _ready
 
+var total_fries: float = 0
 var current_fries: float = 0
 var unlock_hire := true
 var current_employees: float = 1
